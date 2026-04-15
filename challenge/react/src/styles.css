@@ -1,0 +1,171 @@
+/* MetriView Dashboard — dark theme */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace;
+  background: #0d1117;
+  color: #c9d1d9;
+  line-height: 1.5;
+}
+
+.dashboard {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #30363d;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+.header h1 { font-size: 1.4rem; }
+.header .status { font-size: 0.9rem; }
+.header .status.connected { color: #3fb950; }
+.header .status.disconnected { color: #f85149; }
+
+/* Stats bar */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.stat-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 12px;
+  text-align: center;
+}
+.stat-card h3 { font-size: 0.75rem; text-transform: uppercase; color: #8b949e; }
+.stat-card span { font-size: 1.3rem; font-weight: bold; }
+
+/* Endpoint table */
+.endpoint-table {
+  margin-bottom: 16px;
+}
+.endpoint-table h2 { margin-bottom: 8px; font-size: 1.1rem; }
+.endpoint-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.endpoint-table th,
+.endpoint-table td {
+  text-align: left;
+  padding: 4px 8px;
+  border-bottom: 1px solid #21262d;
+}
+.endpoint-table th { color: #8b949e; font-weight: 600; }
+.endpoint-table select,
+.endpoint-table button {
+  background: #21262d;
+  color: #c9d1d9;
+  border: 1px solid #30363d;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 6px;
+}
+
+/* Latency chart */
+.latency-chart {
+  margin-bottom: 16px;
+}
+.latency-chart h2 { margin-bottom: 4px; font-size: 1.1rem; }
+.chart-info { font-size: 0.8rem; color: #8b949e; margin-bottom: 6px; }
+.bars { background: #161b22; border-radius: 4px; padding: 6px; }
+
+/* Alert panel */
+.alert-panel {
+  margin-bottom: 16px;
+}
+.alert-panel h2 { margin-bottom: 8px; font-size: 1.1rem; }
+.alert-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.alert-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.alert-card.fired { border-color: #f85149; }
+.alert-card.ok { border-color: #3fb950; }
+
+/* Event log */
+.event-log {
+  margin-bottom: 16px;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 8px;
+}
+.event-log h2 { margin-bottom: 6px; font-size: 1.1rem; }
+.log-entry {
+  font-size: 0.78rem;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.log-time { color: #8b949e; }
+.log-type { color: #d2a8ff; }
+.log-endpoint { color: #79c0ff; }
+.log-status { color: #3fb950; }
+.log-latency { color: #ffa657; }
+.log-message { color: #8b949e; }
+
+/* Status tracker (invisible container) */
+.status-tracker { /* no visual */}
+
+/* Results panel */
+#results {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.results-panel {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 24px 32px;
+  max-width: 500px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+.results-panel h2 { margin-bottom: 12px; }
+.results-panel h3 { margin: 12px 0 6px; font-size: 1rem; }
+.results-table,
+.breakdown-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+.results-table td,
+.breakdown-table td,
+.breakdown-table th {
+  padding: 4px 8px;
+  border-bottom: 1px solid #21262d;
+}
+.results-table td:first-child,
+.breakdown-table th { color: #8b949e; font-weight: 600; }
+.pass { color: #3fb950; font-weight: bold; }
+.fail { color: #f85149; font-weight: bold; }
+.tier-gold { color: #f0c000; font-weight: bold; }
+.tier-silver { color: #adb5bd; font-weight: bold; }
+.tier-bronze { color: #cd7f32; font-weight: bold; }
+.tier-pass { color: #3fb950; font-weight: bold; }
+.tier-fail { color: #f85149; font-weight: bold; }

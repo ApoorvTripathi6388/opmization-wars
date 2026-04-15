@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Go
+*.exe
+logwatch
+
+# C
+build/
+bin/
+*.o
+
+# Rust
+target/
+
+# React / Node
+node_modules/
+dist/
+.vite/
+
+# Playwright artifacts
+test-results/
+__bench_tests__/
+__bench_pw.config.js
+
+# OS / editor
+.DS_Store
+*.swp
+*.swo
+*~

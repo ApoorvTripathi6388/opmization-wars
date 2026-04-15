@@ -1,0 +1,11 @@
+[package]
+name = "texrank"
+version = "0.1.0"
+edition = "2021"
+description = "Text Ranking Engine — document indexing, TF-IDF scoring, and similarity analysis"
+
+[dependencies]
+rayon = "1.10"
+
+[profile.release]
+opt-level = 2
