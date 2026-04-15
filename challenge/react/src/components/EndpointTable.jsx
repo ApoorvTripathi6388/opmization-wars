@@ -1,11 +1,13 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useMemo, memo } from 'react';
 import { countRender } from '../data/renderCounter.js';
-import { MetricsContext } from './MetricsProvider.jsx';
+// 1. Import the specific context
+import { EndpointsContext } from './MetricsProvider.jsx';
 
 /**
  * Individual endpoint row.
+ * 2. Wrap in React.memo so rows only re-render if their specific data or rank changes
  */
-function EndpointRow({ endpoint, rank }) {
+const EndpointRow = memo(function EndpointRow({ endpoint, rank }) {
   countRender('EndpointRow');
 
   return (
@@ -19,27 +21,32 @@ function EndpointRow({ endpoint, rank }) {
       <td>{endpoint.status}</td>
     </tr>
   );
-}
+});
 
 /**
  * Sortable table showing all monitored endpoints.
  */
 export default function EndpointTable() {
   countRender('EndpointTable');
-  const { endpoints } = useContext(MetricsContext);
+  
+  // 3. Consume the new context directly (it's not an object with an 'endpoints' property anymore, it IS the endpoints array)
+  const endpoints = useContext(EndpointsContext);
   const [sortField, setSortField] = useState('requests');
   const [sortDir, setSortDir] = useState('desc');
 
-  const sorted = [...endpoints].sort((a, b) => {
-    const va = a[sortField];
-    const vb = b[sortField];
-    if (typeof va === 'number') {
-      return sortDir === 'desc' ? vb - va : va - vb;
-    }
-    return sortDir === 'desc'
-      ? String(vb).localeCompare(String(va))
-      : String(va).localeCompare(String(vb));
-  });
+  // 4. Memoize the sorting calculation so it doesn't run unnecessarily
+  const sorted = useMemo(() => {
+    return [...endpoints].sort((a, b) => {
+      const va = a[sortField];
+      const vb = b[sortField];
+      if (typeof va === 'number') {
+        return sortDir === 'desc' ? vb - va : va - vb;
+      }
+      return sortDir === 'desc'
+        ? String(vb).localeCompare(String(va))
+        : String(va).localeCompare(String(vb));
+    });
+  }, [endpoints, sortField, sortDir]);
 
   return (
     <div className="endpoint-table">

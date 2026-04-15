@@ -1,11 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useContext, memo } from 'react';
 import { countRender } from '../data/renderCounter.js';
-import { MetricsContext } from './MetricsProvider.jsx';
+// 1. Import the new, specific context
+import { StaticMetricsContext } from './MetricsProvider.jsx';
 
 /**
  * Displays a single event entry.
+ * 2. Wrap the component in React.memo to prevent unnecessary re-renders
  */
-function LogEntry({ event }) {
+const LogEntry = memo(function LogEntry({ event }) {
   countRender('LogEntry');
 
   return (
@@ -18,14 +20,16 @@ function LogEntry({ event }) {
       <span className="log-message"> — {event.message}</span>
     </div>
   );
-}
+});
 
 /**
  * Scrollable event log showing recent system events.
  */
 export default function EventLog() {
   countRender('EventLog');
-  const { events } = useContext(MetricsContext);
+  
+  // 3. Consume from the new StaticMetricsContext
+  const { events } = useContext(StaticMetricsContext);
 
   return (
     <div className="event-log" style={{ maxHeight: '400px', overflow: 'auto' }}>

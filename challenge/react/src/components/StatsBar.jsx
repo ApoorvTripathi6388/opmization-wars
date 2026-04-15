@@ -1,32 +1,37 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { countRender } from '../data/renderCounter.js';
-import { MetricsContext } from './MetricsProvider.jsx';
+// 1. Import the specific contexts
+import { EndpointsContext, AlertsContext } from './MetricsProvider.jsx';
 
 /**
  * Summary statistics computed from the endpoint list.
- * Uses local state to cache derived totals.
  */
 export default function StatsBar() {
   countRender('StatsBar');
-  const { endpoints, alerts } = useContext(MetricsContext);
+  
+  // 2. Consume the granular contexts
+  const endpoints = useContext(EndpointsContext);
+  const alerts = useContext(AlertsContext);
 
-  const [totalRequests, setTotalRequests] = useState(0);
-  const [errorRate, setErrorRate] = useState(0);
-  const [avgLatency, setAvgLatency] = useState(0);
-  const [alertCount, setAlertCount] = useState(0);
-
-  useEffect(() => {
+  // 3. Replace useEffect+useState with useMemo to prevent double-renders
+  const { totalRequests, errorRate, avgLatency } = useMemo(() => {
     let total = 0, errors = 0, latSum = 0;
     for (const ep of endpoints) {
       total += ep.requests;
       errors += ep.errors;
       latSum += ep.avgLatency;
     }
-    setTotalRequests(total);
-    setErrorRate(total > 0 ? Math.round((errors / total) * 10000) / 100 : 0);
-    setAvgLatency(Math.round((latSum / endpoints.length) * 100) / 100);
-    setAlertCount(alerts.filter(a => a.fired).length);
-  });
+    
+    return {
+      totalRequests: total,
+      errorRate: total > 0 ? Math.round((errors / total) * 10000) / 100 : 0,
+      avgLatency: endpoints.length > 0 ? Math.round((latSum / endpoints.length) * 100) / 100 : 0
+    };
+  }, [endpoints]);
+
+  const alertCount = useMemo(() => {
+    return alerts.filter(a => a.fired).length;
+  }, [alerts]);
 
   return (
     <div className="stats-bar">
