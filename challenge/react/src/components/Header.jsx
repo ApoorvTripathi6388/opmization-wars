@@ -1,13 +1,16 @@
 import React, { useContext } from 'react';
 import { countRender } from '../data/renderCounter.js';
-import { MetricsContext } from './MetricsProvider.jsx';
+// 1. Import the specific SystemContext
+import { SystemContext } from './MetricsProvider.jsx';
 
 /**
  * Displays connection status and current tick.
  */
 export default function Header() {
   countRender('Header');
-  const { connected, tick } = useContext(MetricsContext);
+  
+  // 2. Consume the SystemContext
+  const { connected, tick } = useContext(SystemContext);
 
   return (
     <div className="header">
